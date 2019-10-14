@@ -6,11 +6,8 @@ var app = require('express')();
 
 var authUsername = process.env.USERNAME;
 var authPassword = process.env.PASSWORD;
-var rawuserpw = authUsername + ":" + authPassword;
-// console.log("User (raw): " + rawuserpw);
-
-var userpw = Buffer.from(rawuserpw).toString('base64');
-// console.log("User (base64): " + userpw);
+var userpw = authUsername + ":" + authPassword;
+// console.log("User (base64): " + userpw);  
 
 var backendOptions = {
   key: fs.readFileSync("/usr/share/elasticproxy/backend/elasticproxy-backend-key.pem"),
@@ -34,15 +31,17 @@ app.use('/', proxy('https://elasticsearch:9200', {
       return proxyReqOpts;
     },
     filter: function(req, res) {
-      // console.log("request to " + req.method + " " + req.url)
-      // console.log("HEADERS: \n" + JSON.stringify(req.headers));
-
       // check authorization
       var sentstr = req.headers.authorization;
       var parts  = sentstr.split(' ');
-      if (parts[1] != userpw) {
-        console.log("authorization: FAILED" );
-        return false;
+      sentstr = Buffer.from(parts[1], 'base64').toString('utf-8');
+      parts = sentstr.split('\n');
+      sentstr = parts[0];
+      if (sentstr != userpw) {
+        console.log("authorization: FAILED");
+        console.log("request to " + req.method + " " + req.url)
+        console.log("HEADERS: \n" + JSON.stringify(req.headers));
+      return false;
       } else {
         return req.method == 'GET';
       }
