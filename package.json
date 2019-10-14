@@ -1,0 +1,19 @@
+{
+  "name": "elastic-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "elasticproxy.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node elasticproxy.js"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "express": "^4.15.3",
+    "express-http-proxy": "^1.6.0"
+  }
+}

@@ -1,0 +1,71 @@
+---
+# Application to deploy
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: $APPNAME
+spec:
+  replicas: 1 # tells deployment to run x pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: $APPNAME
+        tier: backend
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - name: $APPNAME
+        image: $IMAGE
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 500m
+            memory: 100Mi
+          limits:
+            cpu: 1141m
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: elasticproxy-auth-secret
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: elasticproxy-auth-secret
+        volumeMounts:
+        - mountPath: /usr/share/elasticproxy/backend
+          name: backend-certs
+          readOnly: true
+        - mountPath: /usr/share/elasticproxy/frontend
+          name: frontend-certs
+          readOnly: true
+      volumes:
+      - name: backend-certs
+        secret:
+          defaultMode: 420
+          secretName: elasticproxy-backend-certs            
+      - name: frontend-certs
+        secret:
+          defaultMode: 420
+          secretName: elasticproxy-frontend-certs            
+---
+# Service to expose backend
+apiVersion: v1
+kind: Service
+metadata:
+  name: $APPNAME-service
+  labels:
+    app: $APPNAME
+    tier: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4433 # Internal Port
+    targetPort: 4433
+  selector:
+    app: $APPNAME
+    tier: backend
+

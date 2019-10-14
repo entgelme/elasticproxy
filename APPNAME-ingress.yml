@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: $APPNAME-ingress
+  labels:
+    app: $APPNAME
+  namespace: kube-system
+  annotations:
+    ingress.kubernetes.io/ssl-passthrough: "true"
+    ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - host: elasticproxy.mycluster.icp
+    http:
+      paths:
+      - path: /
+        backend:
+         serviceName: $APPNAME-service
+         servicePort: 4433
+  # tls:
+  # - hosts:
+  #   - elasticproxy.mycluster.icp
+  #   secretName: front-ingress-2
