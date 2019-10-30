@@ -15,6 +15,7 @@ var backendOptions = {
   ca: fs.readFileSync("/usr/share/elasticproxy/backend/server.pem")
 };
 
+
 var frontendOptions = {
     key: fs.readFileSync('/usr/share/elasticproxy/frontend/elasticproxy-frontend-key.pem'),
     cert: fs.readFileSync('/usr/share/elasticproxy/frontend/elasticproxy-frontend-crt.pem')
