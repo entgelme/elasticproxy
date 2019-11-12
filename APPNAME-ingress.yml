@@ -10,7 +10,7 @@ metadata:
     ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-  - host: elasticproxy.<icp-master>
+  - host: elasticproxy.<icp-proxy>
     http:
       paths:
       - path: /
@@ -20,5 +20,5 @@ spec:
   # if, alternatively, you want to terminate tls here in the ingress instead of the elasticproxy process, use this: 
   #tls:
   # - hosts:
-  #   - elasticproxy.<icp-master>
+  #   - elasticproxy.<icp-proxy>
   #   secretName: front-ingress-2

@@ -1,6 +1,6 @@
 #FROM node:9.4.0-alpine
-#FROM ibmcom/icp-nodejs-sample
-FROM <baseimage>:<tag>
+FROM ibmcom/icp-nodejs-sample
+#FROM <baseimage>:<tag>
 #COPY elasticproxy.js ./
 #COPY package.json .
 #instead copy everything, because node_modules have to be copied to the image. 
