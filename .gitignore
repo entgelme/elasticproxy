@@ -1,4 +1,4 @@
-node_modules
+#node_modules
 certs
 depltmp.yml
 elasticproxy-ingress.yml

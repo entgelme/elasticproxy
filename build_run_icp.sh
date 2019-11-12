@@ -3,10 +3,10 @@
 # cloudctl login
 # docker login <icpcluster>:8500
 
-# Change the names of the Container image registry BX_REGISTRY 
-# and the k8s NAMESPACE to deploy to according to your needs:
+# Change the names of the Container image registry BX_REGISTRY, 
+# the k8s NAMESPACE to deploy to, and the App name and version tag 
+# according to your needs:
 BX_REGISTRY=mycluster.icp:8500
-#BX_REGISTRY=de.icr.io/entgelmereg
 echo Using registry $BX_REGISTRY
 
 NAMESPACE=kube-system
